@@ -1,5 +1,5 @@
-#include <stdarg.h>
 #include <stdio.h>
+#include "main.h"
 #include <string.h>
 
 void handle_char(va_list args, int *count);
@@ -7,18 +7,17 @@ void handle_integer(va_list args, int *count);
 void handle_string(va_list args, int *count);
 
 /**
- * my_printf - A simplified implementation of printf
+ * _printf - A simplified implementation of printf
  * @format: The format string
  * Return: The number of characters printed
  */
 
-int my_printf(const char *format, ...)
+int _printf(const char *format, ...)
 {
 	va_list args;
+	int count = 0;
 
 	va_start(args, format);
-
-	int count = 0;
 
 	while (*format != '\0')
 	{
