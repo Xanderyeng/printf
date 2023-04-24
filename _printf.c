@@ -1,77 +1,102 @@
-#include <stdio.h>
 #include <stdarg.h>
-#include "main.h"
+#include <stdio.h>
+#include <string.h>
+
+void handle_char(va_list args, int *count);
+void handle_integer(va_list args, int *count);
+void handle_string(va_list args, int *count);
 
 /**
- * _printf - a function that produces output
- * according to a format
- *
- * @format: an array ( s, c,%)
- *
- * Return: success
+ * my_printf - A simplified implementation of printf
+ * @format: The format string
+ * Return: The number of characters printed
  */
 
-int _printf(const char *format, ...)
+int my_printf(const char *format, ...)
 {
 	va_list args;
-	int i, count = 0;
 
 	va_start(args, format);
 
-	for (i = 0; format[i] != '\0'; i++)
+	int count = 0;
+
+	while (*format != '\0')
 	{
-	if (format[i] == '%')
-	{
-		i++;
-		switch (format[i])
+		if (*format != '%')
 		{
-		case 'c':
-			count += putchar(va_arg(args, int));
-			break;
-		case 's':
-			count += _print_str(va_arg(args, char *));
-		break;
-		case '%':
-			count += putchar('%');
-			break;
-		default:
-			count += putchar('%');
-			count += putchar(format[i]);
-			break;
-			}
+			putchar(*format);
+			count++;
 		}
 		else
 		{
-			count += putchar(format[i]);
+			format++;
+			switch (*format)
+			{
+				case 'c':
+					handle_char(args, &count);
+					break;
+				case 'd':
+				case 'i':
+					handle_integer(args, &count);
+					break;
+				case 's':
+					handle_string(args, &count);
+					break;
+				case '%':
+					putchar('%');
+					count++;
+					break;
+				default:
+					putchar(*format);
+					count++;
+					break;
+			}
 		}
+		format++;
 	}
 
 	va_end(args);
-
 	return (count);
 }
 
 /**
- * _print_str - prints a string to stdout
- * @str: the string to print
- *
- * Return: the number of characters printed
- *
+ * handle_char - Handle the %c format specifier
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
  */
 
-int _print_str(char *str)
+void handle_char(va_list args, int *count)
 {
-	int i, count = 0;
+	int c = va_arg(args, int);
 
-	if (str == NULL)
-	{
-		str = "(null)";
-	}
+	putchar(c);
+	(*count)++;
+}
 
-	for (i = 0; str[i] != '\0'; i++)
-	{
-		count += putchar(str[i]);
-	}
+/**
+ * handle_integer - Handle the %d and %i format specifiers
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ */
 
-	return (count);
+void handle_integer(va_list args, int *count)
+{
+	int d = va_arg(args, int);
+
+	printf("%d", d);
+	(*count) += snprintf(NULL, 0, "%d", d);
+}
+
+/**
+ * handle_string - Handle the %s format specifier
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ */
+
+void handle_string(va_list args, int *count)
+{
+	char *s = va_arg(args, char *);
+
+	printf("%s", s);
+	(*count) += strlen(s);
 }
