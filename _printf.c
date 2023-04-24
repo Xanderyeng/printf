@@ -10,6 +10,7 @@ void handle_hexadecimal(va_list args, int *count, int uppercase);
 void handle_unknown(int *count, char spec);
 void handle_octal(va_list args, int *count);
 void handle_pointer(va_list args, int *count);
+void handle_unsigned(va_list args, int *count);
 
 /**
  * _printf - A simplified implementation of printf
@@ -42,6 +43,9 @@ int _printf(const char *format, ...)
 				case 'd':
 				case 'i':
 					handle_integer(args, &count);
+					break;
+				case 'u':
+					handle_unsigned(args, &count);
 					break;
 				case 's':
 					handle_string(args, &count);
@@ -195,4 +199,17 @@ void handle_octal(va_list args, int *count)
 
 	printf("%o", u);
 	(*count) += snprintf(NULL, 0, "%o", u);
+}
+
+/**
+ * handle_unsigned - Handle the %u and %d format specifiers
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ */
+void handle_unsigned(va_list args, int *count)
+{
+	unsigned int u = va_arg(args, unsigned int);
+
+	printf("%u", u);
+	(*count) += snprintf(NULL, 0, "%u", u);
 }
