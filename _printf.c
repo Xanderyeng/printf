@@ -8,6 +8,8 @@ void handle_integer(va_list args, int *count);
 void handle_string(va_list args, int *count);
 void handle_hexadecimal(va_list args, int *count, int uppercase);
 void handle_unknown(int *count, char spec);
+void handle_octal(va_list args, int *count);
+void handle_pointer(va_list args, int *count);
 
 /**
  * _printf - A simplified implementation of printf
@@ -174,21 +176,23 @@ void handle_address(va_list args, int *count)
 
 void handle_pointer(va_list args, int *count)
 {
-    void *p = va_arg(args, void *);
-    printf("%p", p);
-    (*count) += snprintf(NULL, 0, "%p", p);
+	void *p = va_arg(args, void *);
+
+	printf("%p", p);
+	(*count) += snprintf(NULL, 0, "%p", p);
 }
 
- /**
-* handle_octal - handling octal values
-* @args: va_list
-* @count: count of the octal values
-*
-*/
+/**
+ * handle_octal - handling octal values
+ * @args: va_list
+ * @count: count of the octal values
+ *
+ */
 
 void handle_octal(va_list args, int *count)
 {
-    unsigned int u = va_arg(args, unsigned int);
-    printf("%o", u);
-    (*count) += snprintf(NULL, 0, "%o", u);
+	unsigned int u = va_arg(args, unsigned int);
+
+	printf("%o", u);
+	(*count) += snprintf(NULL, 0, "%o", u);
 }
