@@ -40,7 +40,15 @@ struct fmt
 typedef struct fmt fmt_t;
 
 int _printf(const char *format, ...);
-int handle_print(const char *fmt, int *i,
+int handle_print(const char *fmt, int *i;
+void handle_char(va_list args, int *count);
+void handle_integer(va_list args, int *count);
+void handle_string(va_list args, int *count);
+void handle_hexadecimal(va_list args, int *count, int uppercase);
+void handle_unknown(int *count, char spec);
+void handle_octal(va_list args, int *count);
+void handle_pointer(va_list args, int *count);
+void handle_unsigned(va_list args, int *count);
 va_list list, char buffer[], int flags, int width, int precision, int size);
 
 /****************** FUNCTIONS ******************/

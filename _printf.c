@@ -3,15 +3,6 @@
 #include "main.h"
 #include <string.h>
 
-void handle_char(va_list args, int *count);
-void handle_integer(va_list args, int *count);
-void handle_string(va_list args, int *count);
-void handle_hexadecimal(va_list args, int *count, int uppercase);
-void handle_unknown(int *count, char spec);
-void handle_octal(va_list args, int *count);
-void handle_pointer(va_list args, int *count);
-void handle_unsigned(va_list args, int *count);
-
 /**
  * _printf - A simplified implementation of printf
  * @format: The format string
