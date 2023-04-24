@@ -50,6 +50,12 @@ int _printf(const char *format, ...)
 				case 'X':
 					handle_hexadecimal(args, &count, 1);
 					break;
+				case 'p':
+					handle_pointer(args, &count);
+					break;
+				case 'o':
+					handle_octal(args, &count);
+					break;
 				case '%':
 					putchar('%');
 					count++;
@@ -142,4 +148,47 @@ void handle_unknown(int *count, char spec)
 	putchar('%');
 	putchar(spec);
 	(*count) += 2;
+}
+
+/**
+ * handle_address - Handle the %p format specifier
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ *
+ */
+
+void handle_address(va_list args, int *count)
+{
+	void *p = va_arg(args, void *);
+
+	printf("%p", p);
+	(*count) += snprintf(NULL, 0, "%p", p);
+}
+
+/**
+ * handle_pointer - handling pointers
+ * @args: va_list
+ * @count: count of the pointer(s)
+ *
+ */
+
+void handle_pointer(va_list args, int *count)
+{
+    void *p = va_arg(args, void *);
+    printf("%p", p);
+    (*count) += snprintf(NULL, 0, "%p", p);
+}
+
+ /**
+* handle_octal - handling octal values
+* @args: va_list
+* @count: count of the octal values
+*
+*/
+
+void handle_octal(va_list args, int *count)
+{
+    unsigned int u = va_arg(args, unsigned int);
+    printf("%o", u);
+    (*count) += snprintf(NULL, 0, "%o", u);
 }
