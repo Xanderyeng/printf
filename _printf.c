@@ -1,10 +1,12 @@
 #include <stdio.h>
+#include <stdarg.h>
 #include "main.h"
 #include <string.h>
 
 void handle_char(va_list args, int *count);
 void handle_integer(va_list args, int *count);
 void handle_string(va_list args, int *count);
+void handle_hexadecimal(va_list args, int *count, int uppercase);
 
 /**
  * _printf - A simplified implementation of printf
@@ -44,6 +46,12 @@ int _printf(const char *format, ...)
 				case '%':
 					putchar('%');
 					count++;
+					break;
+				case 'x':
+					handle_hexadecimal(args, &count, 0);
+					break;
+				case 'X':
+					handle_hexadecimal(args, &count, 1);
 					break;
 				default:
 					putchar(*format);
@@ -98,4 +106,26 @@ void handle_string(va_list args, int *count)
 
 	printf("%s", s);
 	(*count) += strlen(s);
+}
+
+/**
+ * handle_hexadecimal - Handle the %x and %X format specifiers
+ * @args: A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ * @uppercase: A flag indicating whether to use uppercase letters for %X
+ */
+void handle_hexadecimal(va_list args, int *count, int uppercase)
+{
+	unsigned int x = va_arg(args, unsigned int);
+
+	if (uppercase)
+	{
+		printf("%X", x);
+		(*count) += snprintf(NULL, 0, "%X", x);
+	}
+	else
+	{
+		printf("%x", x);
+		(*count) += snprintf(NULL, 0, "%x", x);
+	}
 }
