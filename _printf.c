@@ -7,6 +7,7 @@ void handle_char(va_list args, int *count);
 void handle_integer(va_list args, int *count);
 void handle_string(va_list args, int *count);
 void handle_hexadecimal(va_list args, int *count, int uppercase);
+void handle_unknown(int *count, char spec);
 
 /**
  * _printf - A simplified implementation of printf
@@ -43,19 +44,18 @@ int _printf(const char *format, ...)
 				case 's':
 					handle_string(args, &count);
 					break;
-				case '%':
-					putchar('%');
-					count++;
-					break;
 				case 'x':
 					handle_hexadecimal(args, &count, 0);
 					break;
 				case 'X':
 					handle_hexadecimal(args, &count, 1);
 					break;
-				default:
-					putchar(*format);
+				case '%':
+					putchar('%');
 					count++;
+					break;
+				default:
+					handle_unknown(&count, *format);
 					break;
 			}
 		}
@@ -128,4 +128,18 @@ void handle_hexadecimal(va_list args, int *count, int uppercase)
 		printf("%x", x);
 		(*count) += snprintf(NULL, 0, "%x", x);
 	}
+}
+
+/**
+ * handle_unknown - Handle any unknown format specifier
+ *	args A va_list containing the arguments to the function
+ * @count: A pointer to the count of printed characters
+ * @spec: spec
+ */
+
+void handle_unknown(int *count, char spec)
+{
+	putchar('%');
+	putchar(spec);
+	(*count) += 2;
 }
