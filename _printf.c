@@ -73,7 +73,7 @@ int _printf(const char *format, ...)
 					handle_S(args, &count);
 					break;
 				case '%':
-					_putchar('%');
+					putchar('%');
 					count++;
 					break;
 				default:
