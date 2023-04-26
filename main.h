@@ -1,35 +1,24 @@
-#ifndef MAIN_H
-#define MAIN_H
-
+#ifndef our_printf
+#define our_printf
 #include <stdio.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 /**
- * struct print_format - structure to match a format specifier with a function
- * @spec: the format specifier
- * @f: the function to handle the format specifier
+ * struct specifier - struct specifier
+ * @valid: the valid character.
+ * @f: the functions associated.
  *
- * Return: void
  */
-typedef struct print_format
+typedef struct specifier
 {
-	char *spec;
-	void (*f)(va_list args, int *count);
-} print_format_t;
-
-int _putchar(char c);
+	char *valid;
+	int (*f)(va_list);
+} spec;
 int _printf(const char *format, ...);
-int handle_print(const char *fmt, va_list args, int *count);
-void handle_char(va_list args, int *count);
-void handle_integer(va_list args, int *count);
-void handle_string(va_list args, int *count);
-void handle_hexadecimal(va_list args, int *count, int uppercase);
-void handle_unknown(int *count, char spec);
-void handle_octal(va_list args, int *count);
-void handle_pointer(va_list args, int *count);
-void handle_unsigned(va_list args, int *count);
-void handle_S(va_list args, int *count);
-
-#endif /* MAIN_H */
+int print_c(va_list args);
+int print_s(va_list args);
+int print_d(va_list args);
+int print_i(va_list args);
+int _putchar(char c);
+int print_percent(va_list args);
+int (*get_func(char x))(va_list args);
+#endif
