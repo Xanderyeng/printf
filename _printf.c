@@ -33,7 +33,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			_putchar(*format);
+			putchar(*format);
 			count++;
 		}
 		else
@@ -169,7 +169,7 @@ void handle_char(va_list args, int *count)
 {
 	int c = va_arg(args, int);
 
-	_putchar(c);
+	putchar(c);
 	(*count)++;
 }
 
@@ -232,8 +232,8 @@ void handle_hexadecimal(va_list args, int *count, int uppercase)
 
 void handle_unknown(int *count, char spec)
 {
-	_putchar('%');
-	_putchar(spec);
+	putchar('%');
+	putchar(spec);
 	(*count) += 2;
 }
 
