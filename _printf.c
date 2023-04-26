@@ -9,6 +9,16 @@
  * Return: The number of characters printed
  */
 
+void handle_char(va_list args, int *count);
+void handle_integer(va_list args, int *count);
+void handle_string(va_list args, int *count);
+void handle_hexadecimal(va_list args, int *count, int uppercase);
+void handle_unknown(int *count, char spec);
+void handle_octal(va_list args, int *count);
+void handle_pointer(va_list args, int *count);
+void handle_unsigned(va_list args, int *count);
+void print_hex(unsigned int num, int *count);
+
 int _printf(const char *format, ...)
 {
 	va_list args;
@@ -20,7 +30,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			_putchar(*format);
+			putchar(*format);
 			count++;
 		}
 		else
@@ -53,6 +63,9 @@ int _printf(const char *format, ...)
 				case 'o':
 					handle_octal(args, &count);
 					break;
+				case 'S':
+					handle_S(args, &count);
+					break;
 				case '%':
 					putchar('%');
 					count++;
@@ -70,6 +83,41 @@ int _printf(const char *format, ...)
 }
 
 /**
+ * handle_S - Handles the custom conversion specifier %S
+ * @args: The va_list containing the next argument
+ * @count: A pointer to the character count
+ */
+
+void handle_S(va_list args, int *count)
+{
+	char *str = va_arg(args, char *);
+	int i = 0;
+
+	if (str == NULL)
+	{
+		printf("(null)");
+		*count += 6;
+		return;
+	}
+
+	while (str[i] != '\0')
+	{
+		if ((str[i] > 0 && str[i] < 32) || str[i] >= 127)
+		{
+			_putchar('\\');
+			_putchar('x');
+			print_hex(str[i], count);
+		}
+		else
+		{
+			_putchar(str[i]);
+			*count += 1;
+		}
+		i++;
+	}
+}
+
+/**
  * handle_char - Handle the %c format specifier
  * @args: A va_list containing the arguments to the function
  * @count: A pointer to the count of printed characters
@@ -79,7 +127,7 @@ void handle_char(va_list args, int *count)
 {
 	int c = va_arg(args, int);
 
-	_putchar(c);
+	putchar(c);
 	(*count)++;
 }
 
@@ -142,8 +190,8 @@ void handle_hexadecimal(va_list args, int *count, int uppercase)
 
 void handle_unknown(int *count, char spec)
 {
-	_putchar('%');
-	_putchar(spec);
+	putchar('%');
+	putchar(spec);
 	(*count) += 2;
 }
 
@@ -199,8 +247,45 @@ void handle_octal(va_list args, int *count)
  */
 void handle_unsigned(va_list args, int *count)
 {
-	unsigned int u = va_arg(args, unsigned int);
+	unsigned int u = va_arg(args, int);
 
 	printf("%u", u);
 	(*count) += snprintf(NULL, 0, "%u", u);
+}
+
+
+/**
+ * print_hex - print ASCII code value of hexadecimal
+ * @num: value
+ * @count: value
+ */
+
+void print_hex(unsigned int num, int *count)
+{
+	char *hex_chars = "0123456789ABCDEF";
+
+	int i, j, remainder;
+	char hex[100];
+
+	i = 0;
+	while (num != 0)
+	{
+		remainder = num % 16;
+		hex[i] = hex_chars[remainder];
+		num = num / 16;
+		i++;
+	}
+	if (i == 0)
+	{
+		_putchar('0');
+		(*count)++;
+	}
+	else
+	{
+		for ( j = i - 1; j >= 0; j--)
+	{
+		_putchar(hex[j]);
+		(*count)++;
+		}
+	}
 }
