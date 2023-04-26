@@ -2,12 +2,7 @@
 #include <stdarg.h>
 #include "main.h"
 #include <string.h>
-
-/**
- * _printf - A simplified implementation of printf
- * @format: The format string
- * Return: The number of characters printed
- */
+#include <limits.h>
 
 void handle_char(va_list args, int *count);
 void handle_integer(va_list args, int *count);
@@ -18,6 +13,14 @@ void handle_octal(va_list args, int *count);
 void handle_pointer(va_list args, int *count);
 void handle_unsigned(va_list args, int *count);
 void print_hex(unsigned int num, int *count);
+void handle_binary(va_list args, int *count);
+
+/**
+ * _printf - A simplified implementation of printf
+ * @format: The format string
+ * Return: The number of characters printed
+ */
+
 
 int _printf(const char *format, ...)
 {
@@ -63,6 +66,9 @@ int _printf(const char *format, ...)
 				case 'o':
 					handle_octal(args, &count);
 					break;
+				case 'b':
+					handle_binary(args, &count);
+					break;
 				case 'S':
 					handle_S(args, &count);
 					break;
@@ -80,6 +86,42 @@ int _printf(const char *format, ...)
 
 	va_end(args);
 	return (count);
+}
+
+/**
+ * handle_binary - Converts unsigned int to binary
+ * @args: A va_list pointing to the next unsigned int argument
+ * @count: A pointer to the count of characters printed so far
+ *
+ * Return: void
+ */
+
+void handle_binary(va_list args, int *count)
+{
+	unsigned int num = va_arg(args, unsigned int);
+	unsigned int mask = 1 << ((sizeof(unsigned int) * CHAR_BIT) - 1);
+	int printed = 0;
+
+	while (mask > 0)
+	{
+		if ((num & mask) == mask)
+	{
+		_putchar('1');
+		printed++;
+	}
+	else if (printed)
+	{
+		_putchar('0');
+		printed++;
+	}
+		mask >>= 1;
+	}
+	if (!printed)
+	{
+		_putchar('0');
+		printed++;
+	}
+		*count += printed;
 }
 
 /**
@@ -282,7 +324,7 @@ void print_hex(unsigned int num, int *count)
 	}
 	else
 	{
-		for ( j = i - 1; j >= 0; j--)
+		for (j = i - 1; j >= 0; j--)
 	{
 		_putchar(hex[j]);
 		(*count)++;
