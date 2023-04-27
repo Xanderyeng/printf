@@ -24,5 +24,6 @@ int (*get_func(char x))(va_list args);
 int print_u(va_list args);
 int print_o(va_list args);
 int print_x(va_list args);
+int print_X(va_list args);
 
 #endif
