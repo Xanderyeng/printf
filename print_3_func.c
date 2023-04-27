@@ -28,37 +28,3 @@ int print_u(va_list args)
 
 	return (count);
 }
-/**
- * print_o - prints an octal number
- * @args: decimal argument
- * Return: counter
- */
-int print_o(va_list args)
-{
-	unsigned int n = va_arg(args, unsigned int);
-	unsigned int count = 0;
-	unsigned int octal_num[100];
-	unsigned int i = 0;
-
-	while (n > 0)
-	{
-		octal_num[i] = n % 8;
-		n /= 8;
-		i++;
-	}
-
-	if (i == 0)
-	{
-		count += _putchar('0');
-		return (count);
-	}
-
-	for (i--; i < 100; i--)
-	{
-		count += _putchar(octal_num[i] + '0');
-		if (i == 0)
-		break;
-	}
-
-	return (count);
-}
