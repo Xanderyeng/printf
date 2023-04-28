@@ -14,16 +14,6 @@ typedef struct specifier
 	int (*f)(va_list);
 } spec;
 
-spec arr[] = {
-    {"c", print_c},
-    {"s", print_s},
-    {"%", print_percent},
-    {"d", print_d},
-    {"i", print_i},
-    {"p", print_p}, /* add this line */
-    {NULL, NULL}
-};
-int _printf(const char *format, ...);
 int print_c(va_list args);
 int print_s(va_list args);
 int print_d(va_list args);
@@ -38,5 +28,5 @@ int print_x(va_list args);
 int print_X(va_list args);
 int print_b(va_list args);
 int print_S(va_list args);
-
+int _printf(const char *format, ...)
 #endif
