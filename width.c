@@ -3,10 +3,10 @@
 /**
  * get_width - Calculates the width for printing
  * @format: Formatted string in which to print the arguments.
- * @i: List of arguments to be printed.
- * @list: list of arguments.
+ * @i: Index of the character in the format string to start parsing from.
+ * @list: List of arguments to be printed.
  *
- * Return: width.
+ * Return: The width for printing.
  */
 int get_width(const char *format, int *i, va_list list)
 {
@@ -27,7 +27,9 @@ int get_width(const char *format, int *i, va_list list)
 			break;
 		}
 		else
+		{
 			break;
+		}
 	}
 
 	*i = curr_i - 1;
