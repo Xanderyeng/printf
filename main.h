@@ -1,5 +1,5 @@
-#ifndef our_printf
-#define our_printf
+#ifndef MAIN_H
+#define MAIN_H
 #include <stdio.h>
 #include <stdarg.h>
 /**
@@ -23,8 +23,10 @@ int print_percent(va_list args);
 int (*get_func(char x))(va_list args);
 int print_u(va_list args);
 int print_o(va_list args);
+int print_p(va_list args);
 int print_x(va_list args);
 int print_X(va_list args);
 int print_b(va_list args);
+int print_S(va_list args);
 
 #endif
